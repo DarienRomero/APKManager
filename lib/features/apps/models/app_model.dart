@@ -1,0 +1,26 @@
+class AppModel {
+  final String id;
+  final String lastVersionLink;
+  final int lastVersionNumber;
+  final String lastVersionString;
+  final String logo;
+  final String name;
+
+  AppModel({
+    required this.id,
+    required this.lastVersionLink,
+    required this.lastVersionNumber,
+    required this.lastVersionString,
+    required this.logo,
+    required this.name,
+  });
+
+  factory AppModel.fromJson(Map<String, dynamic> json) => AppModel(
+    id: json["id"] ?? "",
+    lastVersionLink: json["last_version_link"] ?? "",
+    lastVersionNumber: json["last_version_number"] ?? -1,
+    lastVersionString: json["last_version_string"] ?? "",
+    logo: json["logo"] ?? "",
+    name: json["name"] ?? "",
+  );
+}
