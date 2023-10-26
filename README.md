@@ -45,6 +45,7 @@ To create a user you must first create the user on Firebase authenticated. The g
 | `email`       | string           | Email of the user                                            |
 | `username`    | string           | Username of the user                                         |
 | `enabled`     | boolean          | Flag to control user access to the app                       |
+| `is_admin`     | boolean         | Flag to control user access to all apps                      |
 | `app_enabled` | Array of strings | Array with the uuid of app documents those the user can see  |
 
 

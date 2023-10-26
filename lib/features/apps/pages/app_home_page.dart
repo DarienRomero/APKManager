@@ -31,14 +31,12 @@ class _AppHomePageState extends State<AppHomePage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final userProvider = Provider.of<UserProvider>(context, listen: false);
       final currentUser = userProvider.currentUser;
-      appsEnabled = currentUser.appsEnabled;
-      appsProvider.getApps(currentUser.id, currentUser.appsEnabled);
+      appsProvider.getApps(currentUser);
       userProvider.getUserSubscription();
       userSubs = userProvider.userStream.listen((event) {
         //TODO: Mejorar comparacion de listas
-        if(appsEnabled.length != event.appsEnabled.length){
-          appsEnabled = event.appsEnabled;
-          appsProvider.getApps(event.id, event.appsEnabled);
+        if(appsEnabled.length != event.appsEnabled.length || currentUser.isAdmin != event.isAdmin ){
+          appsProvider.getApps(event);
         }
       });
     });
