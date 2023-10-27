@@ -38,6 +38,9 @@ class _AppHomePageState extends State<AppHomePage> {
         if(appsEnabled.length != event.appsEnabled.length || currentUser.isAdmin != event.isAdmin ){
           appsProvider.getApps(event);
         }
+        if(currentUser.enabled && !event.enabled){
+          signOut();
+        }
       });
     });
   }
@@ -70,14 +73,7 @@ class _AppHomePageState extends State<AppHomePage> {
                     fontWeight: FontWeight.bold
                   )),
                   IconButton(
-                    onPressed: () async {
-                      final userProvider = Provider.of<UserProvider>(context, listen: false);
-                      final currentAppsEnabled = userProvider.currentUser.appsEnabled;
-                      await userProvider.signOut();
-                      await notificationController.unsubscribeToTopics(currentAppsEnabled);
-                      if(!mounted) return;
-                      Navigator.pushAndRemoveUntil(context, materialNavigationRoute(context, const SignInPage()), (route) => false);
-                    }, 
+                    onPressed: signOut,
                     icon: const Icon(Icons.logout)
                   )
                 ],
@@ -91,5 +87,13 @@ class _AppHomePageState extends State<AppHomePage> {
         ),
       ),
     );
+  }
+  void signOut() async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final currentAppsEnabled = userProvider.currentUser.appsEnabled;
+    await userProvider.signOut();
+    await notificationController.unsubscribeToTopics(currentAppsEnabled);
+    if(!mounted) return;
+    Navigator.pushAndRemoveUntil(context, materialNavigationRoute(context, const SignInPage()), (route) => false);
   }
 }
