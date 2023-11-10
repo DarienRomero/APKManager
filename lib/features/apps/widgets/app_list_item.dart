@@ -4,6 +4,7 @@ import 'package:apk_manager/features/apps/models/app_model.dart';
 import 'package:apk_manager/features/common/widgets/custom_button.dart';
 import 'package:apk_manager/features/common/widgets/general_image.dart';
 import 'package:apk_manager/features/common/widgets/v_spacing.dart';
+import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/material.dart';
 
 class AppListItem extends StatelessWidget {
@@ -52,8 +53,14 @@ class AppListItem extends StatelessWidget {
           CustomButton(
             widthPer: 20,
             heigth: 40,
-            onPressed: (){
-              LauncherUtils.openUrl(context, appModel.lastVersionLink);
+            onPressed: () async {
+              // LauncherUtils.openUrl(context, appModel.lastVersionLink);
+              // LauncherUtils.openUrl(context, "package:com.hadtech.mirutaapp.dev");
+              await LaunchApp.openApp(
+                androidPackageName: 'com.development.quickapp',
+                openStore: false
+                // openStore: false
+              );
             }, 
             label: "ABRIR", 
             color: Colors.blue,
