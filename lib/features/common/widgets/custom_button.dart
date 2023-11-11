@@ -53,8 +53,8 @@ class CustomButton extends StatelessWidget {
             onPressed!();
           }
         },
-        child: Center(
-          child: Text(label, style: TextStyle(color: labelColor, fontSize: 16)),
+        child:  Center(
+          child: loading ? CircularProgressIndicator(color: Colors.white) : Text(label, style: TextStyle(color: labelColor, fontSize: 16)),
         )
       ),
     );

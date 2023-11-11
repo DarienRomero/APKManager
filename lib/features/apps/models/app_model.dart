@@ -5,6 +5,7 @@ class AppModel {
   final String lastVersionString;
   final String logo;
   final String name;
+  final String packageName;
 
   AppModel({
     required this.id,
@@ -13,6 +14,7 @@ class AppModel {
     required this.lastVersionString,
     required this.logo,
     required this.name,
+    required this.packageName,
   });
 
   factory AppModel.fromJson(Map<String, dynamic> json) => AppModel(
@@ -22,5 +24,6 @@ class AppModel {
     lastVersionString: json["last_version_string"] ?? "",
     logo: json["logo"] ?? "",
     name: json["name"] ?? "",
+    packageName: json["package_name"] ?? "",
   );
 }

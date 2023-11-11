@@ -19,15 +19,17 @@ class AppHomePage extends StatefulWidget {
   State<AppHomePage> createState() => _AppHomePageState();
 }
 
-class _AppHomePageState extends State<AppHomePage> {
+class _AppHomePageState extends State<AppHomePage> with WidgetsBindingObserver {
   final notificationController = NotificationController();
   late AppsProvider appsProvider;
   StreamSubscription? userSubs;
   List<String> appsEnabled = [];
+  int keyCounter = 1;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final userProvider = Provider.of<UserProvider>(context, listen: false);
       final currentUser = userProvider.currentUser;
@@ -47,8 +49,18 @@ class _AppHomePageState extends State<AppHomePage> {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     userSubs?.cancel();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      keyCounter++;
+      setState(() {});
+    }
   }
 
   @override
@@ -80,6 +92,7 @@ class _AppHomePageState extends State<AppHomePage> {
               ),
               const VSpacing(3),
               AppListView(
+                key: Key("counter_$keyCounter"),
                 appsProvider: appsProvider,
               )
             ],

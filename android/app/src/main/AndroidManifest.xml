@@ -12,7 +12,10 @@
             <action android:name="android.intent.action.VIEW" />
             <data android:scheme="https" />
         </intent>
+        <package android:name="com.development.quickapp" />
         <package android:name="com.hadtech.mirutaapp.dev" />
+        <package android:name="com.example.parking_app" />
+        <package android:name="com.development.quickpay.guard" />
     </queries>
    <application
         android:label="APKManager"
