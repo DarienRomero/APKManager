@@ -36,6 +36,7 @@ To create a user you must first create the user on Firebase authenticated. The g
 | `last_version_string`  | string | VersionName of android config            |
 | `logo`                 | string | Public image url to the logo of the app  |
 | `name`                 | string | Name of the app                          |
+| `package_name`         | string | Android package name of the app          |
 
 ##### 'user' collection
 
@@ -48,6 +49,9 @@ To create a user you must first create the user on Firebase authenticated. The g
 | `is_admin`     | boolean         | Flag to control user access to all apps                      |
 | `app_enabled` | Array of strings | Array with the uuid of app documents those the user can see  |
 
+#### Other considerations
+
+Add every android package name of your usings apps to AndroidManifest. It's a must for external_app_launcher works.
 
 ### 📜 License
 
