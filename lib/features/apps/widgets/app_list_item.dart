@@ -2,6 +2,7 @@ import 'package:apk_manager/core/launcher_utils.dart';
 import 'package:apk_manager/core/utils.dart';
 import 'package:apk_manager/features/apps/models/app_model.dart';
 import 'package:apk_manager/features/apps/models/app_state_enum.dart';
+import 'package:apk_manager/features/common/controllers/local_controller.dart';
 import 'package:apk_manager/features/common/widgets/custom_button.dart';
 import 'package:apk_manager/features/common/widgets/general_image.dart';
 import 'package:apk_manager/features/common/widgets/v_spacing.dart';
@@ -22,6 +23,7 @@ class AppListItem extends StatefulWidget {
 class _AppListItemState extends State<AppListItem> {
   bool loadingState = true;
   AppState appState = AppState.not_installed;
+  final localController = LocalController();
 
   @override
   void initState() {
@@ -33,13 +35,17 @@ class _AppListItemState extends State<AppListItem> {
 
   Future<void> readAppState(String packageName) async {
     try{
+      final currentVersion = localController.getAppVersion(widget.appModel.id);
+      final newVersionAvailable = widget.appModel.lastVersionNumber > currentVersion;
       final installed = await LaunchApp.isAppInstalled(
         androidPackageName: widget.appModel.packageName,
       );
-      if(installed == null){
+      if(installed == null || !installed){
         appState = AppState.not_installed;
-      }else if(installed){
+      }else if(installed && !newVersionAvailable){
         appState = AppState.installed;
+      }else{
+        appState = AppState.new_version_available;
       }
     }catch(_){
       appState = AppState.not_installed;
@@ -49,6 +55,14 @@ class _AppListItemState extends State<AppListItem> {
         setState(() {});
       }
     }
+  }
+
+  @override
+  void didUpdateWidget(covariant AppListItem oldWidget) {
+    if(widget.appModel.lastVersionNumber != oldWidget.appModel.lastVersionNumber){
+      readAppState(widget.appModel.packageName);
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
@@ -92,15 +106,14 @@ class _AppListItemState extends State<AppListItem> {
             heigth: 40,
             loading: loadingState,
             onPressed: () async {
-              if(appState == AppState.not_installed){
+              if(appState == AppState.not_installed || appState == AppState.new_version_available){
+                localController.setAppVersion(widget.appModel.id, widget.appModel.lastVersionNumber);
                 LauncherUtils.openUrl(context, widget.appModel.lastVersionLink);
               }else if (appState == AppState.installed){
                 await LaunchApp.openApp(
                   androidPackageName: widget.appModel.packageName,
                   openStore: false
                 );
-              }else if (appState == AppState.new_version_available){
-                LauncherUtils.openUrl(context, widget.appModel.lastVersionLink);
               }
             }, 
             label: appState.displayTitle, 

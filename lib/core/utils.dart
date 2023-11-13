@@ -9,3 +9,5 @@ double mqWidth(BuildContext context, double percentage){
 
 const String notFoundImage = "assets/images/not_found.jpg";
 const String loadingImage = "assets/images/loading_image.gif";
+
+const int firstVersion = 1;

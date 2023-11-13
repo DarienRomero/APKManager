@@ -1,6 +1,7 @@
 import 'package:apk_manager/core/themes.dart';
 import 'package:apk_manager/features/apps/providers/apps_provider.dart';
 import 'package:apk_manager/features/auth/providers/user_provider.dart';
+import 'package:apk_manager/features/common/controllers/local_controller.dart';
 import 'package:apk_manager/features/common/controllers/notification_controller.dart';
 import 'package:apk_manager/features/common/router_page.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -11,6 +12,8 @@ import 'package:provider/provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  final localController = LocalController();
+  await localController.initPrefs();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown

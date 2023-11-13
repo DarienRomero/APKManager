@@ -53,6 +53,8 @@ To create a user you must first create the user on Firebase authenticated. The g
 
 Add every android package name of your usings apps to AndroidManifest. It's a must for external_app_launcher works.
 
+Considerer that every app should start at least with '1' version number.
+
 ### 📜 License
 
 ```
