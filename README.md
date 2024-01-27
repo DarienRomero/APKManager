@@ -28,15 +28,16 @@ To create a user you must first create the user on Firebase authenticated. The g
 
 ##### 'app' collection
 
-| key                    | type   | description                              |
-| ---------------------- | ------ | ---------------------------------------- |
-| `id`                   | string | Same as document uuid                    | 
-| `last_version_link`    | string | Link to the last version of the app      |
-| `last_version_number`  | number | VersionCode of android config            |
-| `last_version_string`  | string | VersionName of android config            |
-| `logo`                 | string | Public image url to the logo of the app  |
-| `name`                 | string | Name of the app                          |
-| `package_name`         | string | Android package name of the app          |
+| key                    | type      | description                              |
+| ---------------------- | --------- | ---------------------------------------- |
+| `id`                   | string    | Same as document uuid                    | 
+| `last_version_link`    | string    | Link to the last version of the app      |
+| `last_version_number`  | number    | VersionCode of android config            |
+| `last_version_string`  | string    | VersionName of android config            |
+| `logo`                 | string    | Public image url to the logo of the app  |
+| `name`                 | string    | Name of the app                          |
+| `package_name`         | string    | Android package name of the app          |
+| `updated_at`           | timestamp | Date of last update                      |
 
 ##### 'user' collection
 

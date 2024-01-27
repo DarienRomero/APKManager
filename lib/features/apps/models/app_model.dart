@@ -6,6 +6,7 @@ class AppModel {
   final String logo;
   final String name;
   final String packageName;
+  final DateTime? updatedAt;
 
   AppModel({
     required this.id,
@@ -15,6 +16,7 @@ class AppModel {
     required this.logo,
     required this.name,
     required this.packageName,
+    required this.updatedAt,
   });
 
   factory AppModel.fromJson(Map<String, dynamic> json) => AppModel(
@@ -25,5 +27,6 @@ class AppModel {
     logo: json["logo"] ?? "",
     name: json["name"] ?? "",
     packageName: json["package_name"] ?? "",
+    updatedAt: json["updated_at"]?.toDate()
   );
 }

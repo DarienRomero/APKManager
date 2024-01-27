@@ -15,11 +15,11 @@ class AppListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return appsProvider.appsLoading ? const LoadingView(heigth: 60) :
-      appsProvider.appsError ? const ErrorView(heigth: 60) :
-      appsProvider.apps.isEmpty ? const EmptyView(heigth: 60) :
-      SizedBox(
-        height: mqHeigth(context, 60),
+    return appsProvider.appsLoading ? const LoadingView(heigth: 80) :
+      appsProvider.appsError ? const ErrorView(heigth: 80) :
+      appsProvider.apps.isEmpty ? const EmptyView(heigth: 80) :
+      Container(
+        height: mqHeigth(context, 80),
         child: ListView.separated(
           itemCount: appsProvider.apps.length,
           itemBuilder: (context, index) {

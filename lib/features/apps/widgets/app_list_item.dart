@@ -1,3 +1,4 @@
+import 'package:apk_manager/core/date_formatters.dart';
 import 'package:apk_manager/core/launcher_utils.dart';
 import 'package:apk_manager/core/utils.dart';
 import 'package:apk_manager/features/apps/models/app_model.dart';
@@ -97,7 +98,15 @@ class _AppListItemState extends State<AppListItem> {
                 const VSpacing(1),
                 Text("Versión: ${widget.appModel.lastVersionString} (${widget.appModel.lastVersionNumber})", style: const TextStyle(
                   color: Colors.black54
-                ))
+                )),
+                if(widget.appModel.updatedAt != null) Container(
+                  margin: EdgeInsets.only(
+                    top: mqHeigth(context, 1)
+                  ),
+                  child: Text("Actualizado: ${formatDate(widget.appModel.updatedAt!)}", style: const TextStyle(
+                    color: Colors.black54
+                  )),
+                )
               ],
             ),
           ),

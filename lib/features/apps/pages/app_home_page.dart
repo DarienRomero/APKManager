@@ -4,6 +4,7 @@ import 'package:apk_manager/core/navigation.dart';
 import 'package:apk_manager/core/utils.dart';
 import 'package:apk_manager/features/apps/providers/apps_provider.dart';
 import 'package:apk_manager/features/apps/widgets/app_list_view.dart';
+import 'package:apk_manager/features/auth/models/user_model.dart';
 import 'package:apk_manager/features/auth/pages/sign_in_page.dart';
 import 'package:apk_manager/features/auth/providers/user_provider.dart';
 import 'package:apk_manager/features/common/controllers/notification_controller.dart';
@@ -76,19 +77,33 @@ class _AppHomePageState extends State<AppHomePage> with WidgetsBindingObserver {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const VSpacing(8),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text("Aplicaciones disponibles", style: TextStyle(
-                    color: Colors.blue,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold
-                  )),
-                  IconButton(
-                    onPressed: signOut,
-                    icon: const Icon(Icons.logout)
-                  )
-                ],
+              Selector<UserProvider, UserModel>(
+                selector: (context, userProvider) => userProvider.currentUser,
+                builder: (context, currentUser, _) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(currentUser.username, style: TextStyle(
+                            color: Colors.blue,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold
+                          )),
+                          Text(currentUser.email, style: TextStyle(
+                            color: Colors.blue[300],
+                            fontSize: 18,
+                          )),
+                        ],
+                      ),
+                      IconButton(
+                        onPressed: signOut,
+                        icon: const Icon(Icons.logout)
+                      )
+                    ],
+                  );
+                }
               ),
               const VSpacing(3),
               AppListView(
