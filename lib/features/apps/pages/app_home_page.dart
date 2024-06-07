@@ -8,6 +8,7 @@ import 'package:apk_manager/features/auth/models/user_model.dart';
 import 'package:apk_manager/features/auth/pages/sign_in_page.dart';
 import 'package:apk_manager/features/auth/providers/user_provider.dart';
 import 'package:apk_manager/features/common/controllers/notification_controller.dart';
+import 'package:apk_manager/features/common/widgets/page_loader.dart';
 import 'package:apk_manager/features/common/widgets/scaffold_wrapper.dart';
 import 'package:apk_manager/features/common/widgets/v_spacing.dart';
 import 'package:flutter/material.dart';
@@ -68,51 +69,65 @@ class _AppHomePageState extends State<AppHomePage> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     appsProvider = Provider.of<AppsProvider>(context);
     return ScaffoldWrapper(
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: mqWidth(context, 2.5)
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const VSpacing(8),
-              Selector<UserProvider, UserModel>(
-                selector: (context, userProvider) => userProvider.currentUser,
-                builder: (context, currentUser, _) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(currentUser.username, style: TextStyle(
-                            color: Colors.blue,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold
-                          )),
-                          Text(currentUser.email, style: TextStyle(
-                            color: Colors.blue[300],
-                            fontSize: 18,
-                          )),
-                        ],
-                      ),
-                      IconButton(
-                        onPressed: signOut,
-                        icon: const Icon(Icons.logout)
-                      )
-                    ],
-                  );
-                }
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: mqWidth(context, 2.5)
               ),
-              const VSpacing(3),
-              AppListView(
-                key: Key("counter_$keyCounter"),
-                appsProvider: appsProvider,
-              )
-            ],
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const VSpacing(8),
+                  Selector<UserProvider, UserModel>(
+                    selector: (context, userProvider) => userProvider.currentUser,
+                    builder: (context, currentUser, _) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(currentUser.username, style: TextStyle(
+                                color: Colors.blue,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold
+                              )),
+                              Text(currentUser.email, style: TextStyle(
+                                color: Colors.blue[300],
+                                fontSize: 18,
+                              )),
+                            ],
+                          ),
+                          IconButton(
+                            onPressed: signOut,
+                            icon: const Icon(Icons.logout)
+                          )
+                        ],
+                      );
+                    }
+                  ),
+                  const VSpacing(3),
+                  AppListView(
+                    key: Key("counter_$keyCounter"),
+                    appsProvider: appsProvider,
+                  )
+                ],
+              ),
+            ),
           ),
-        ),
+          Selector<AppsProvider, bool>(
+            selector: (context, appsProvider) => appsProvider.downloadFileLoading,
+            builder: (context, downloadFileLoading, _) {
+              return PageLoader(
+                loading: downloadFileLoading, 
+                message: "Descargando apk...\nEsto puede tomar unos minutos"
+              );
+            }
+          )
+          
+        ],
       ),
     );
   }

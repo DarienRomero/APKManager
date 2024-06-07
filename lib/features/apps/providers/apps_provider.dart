@@ -47,6 +47,7 @@ class AppsProvider extends ChangeNotifier {
   Future<dynamic> startDownloadFile(AppModel appModel) async {
     downloadFileLoading = true;
     downloadFileError = false;
+    notifyListeners();
     final name = appModel.lastVersionLink.split("/").lastOrNull;
     final resp = await filesController.downloadFile(appModel.lastVersionLink, name ?? appModel.name.toLowerCase().replaceAll(" ", ""));
     if(resp is ErrorResponse){
