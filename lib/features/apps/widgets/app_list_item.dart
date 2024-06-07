@@ -3,12 +3,16 @@ import 'package:apk_manager/core/launcher_utils.dart';
 import 'package:apk_manager/core/utils.dart';
 import 'package:apk_manager/features/apps/models/app_model.dart';
 import 'package:apk_manager/features/apps/models/app_state_enum.dart';
+import 'package:apk_manager/features/apps/providers/apps_provider.dart';
 import 'package:apk_manager/features/common/controllers/local_controller.dart';
+import 'package:apk_manager/features/common/models/error_response.dart';
 import 'package:apk_manager/features/common/widgets/custom_button.dart';
 import 'package:apk_manager/features/common/widgets/general_image.dart';
 import 'package:apk_manager/features/common/widgets/v_spacing.dart';
 import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/material.dart';
+import 'package:open_filex/open_filex.dart';
+import 'package:provider/provider.dart';
 
 class AppListItem extends StatefulWidget {
   final AppModel appModel;
@@ -116,8 +120,22 @@ class _AppListItemState extends State<AppListItem> {
             loading: loadingState,
             onPressed: () async {
               if(appState == AppState.not_installed || appState == AppState.new_version_available){
-                localController.setAppVersion(widget.appModel.id, widget.appModel.lastVersionNumber);
-                LauncherUtils.openUrl(context, widget.appModel.lastVersionLink);
+                final appsProvider = Provider.of<AppsProvider>(context, listen: false);
+                final resp = await appsProvider.startDownloadFile(widget.appModel);
+                if(resp is ErrorResponse){
+                  localController.setAppVersion(widget.appModel.id, widget.appModel.lastVersionNumber);
+                  LauncherUtils.openUrl(context, widget.appModel.lastVersionLink);
+                  return;
+                }
+                final path = resp as String;
+                try{
+                  await OpenFilex.open(path);
+                  localController.setAppVersion(widget.appModel.id, widget.appModel.lastVersionNumber);
+                }catch(e){
+                  print(e);
+                  localController.setAppVersion(widget.appModel.id, widget.appModel.lastVersionNumber);
+                  LauncherUtils.openUrl(context, widget.appModel.lastVersionLink);
+                }
               }else if (appState == AppState.installed){
                 await LaunchApp.openApp(
                   androidPackageName: widget.appModel.packageName,
