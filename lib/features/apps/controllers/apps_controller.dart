@@ -11,9 +11,12 @@ class AppsController {
 
   final String appsCollection = "app";
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> appsStream(String userId, List<String> appsEnabled, bool isAdmin) => isAdmin
+  Stream<QuerySnapshot<Map<String, dynamic>>> appsStream(String userId, String companyId, List<String> appsEnabled, bool isAdmin) => isAdmin
     ? _db.collection(appsCollection).snapshots() :
-  _db.collection(appsCollection).where("id", whereIn: appsEnabled).snapshots();
+  _db.collection(appsCollection)
+    .where("id", whereIn: appsEnabled)
+    .where("company", isEqualTo: companyId)
+    .snapshots();
 
   //PARSE
   List<AppModel> parseApps(List<QueryDocumentSnapshot<Object?>> docs){

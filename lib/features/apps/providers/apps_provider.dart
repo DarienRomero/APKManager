@@ -27,7 +27,7 @@ class AppsProvider extends ChangeNotifier {
     }
     appsError = false;
     notifyListeners();
-    appsSubs = appsController.appsStream(currentUser.id, currentUser.appsEnabled, currentUser.isAdmin).listen((QuerySnapshot<Map<String, dynamic>> snapshots) {
+    appsSubs = appsController.appsStream(currentUser.id, currentUser.company, currentUser.appsEnabled, currentUser.isAdmin).listen((QuerySnapshot<Map<String, dynamic>> snapshots) {
       final appsModel = appsController.parseApps(snapshots.docs);
       appsLoading = false;
       appsError = false;

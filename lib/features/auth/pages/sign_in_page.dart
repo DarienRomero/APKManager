@@ -12,6 +12,8 @@ import 'package:apk_manager/features/common/widgets/custom_text_field.dart';
 import 'package:apk_manager/features/common/widgets/page_loader.dart';
 import 'package:apk_manager/features/common/widgets/scaffold_wrapper.dart';
 import 'package:apk_manager/features/common/widgets/v_spacing.dart';
+import 'package:apk_manager/features/company/controllers/company_controller.dart';
+import 'package:apk_manager/features/company/models/company_modal.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +27,7 @@ class SignInPage extends StatefulWidget {
 
 class _SignInPageState extends State<SignInPage> {
   final authController = AuthController();
+  final companyController = CompanyController();
   final notificationController = NotificationController();
   
   final emailController = TextEditingController();
@@ -140,7 +143,23 @@ class _SignInPageState extends State<SignInPage> {
       return;
     }
     final data = responseUser as UserModel;
-    if(!data.enabled){
+    final responseCompany = await companyController.fetchCompanyById(data.company);
+    if(responseCompany is ErrorResponse){
+      setState(() {
+        loading = false;
+      });
+      if(mounted){
+        showErrorAlert(
+          context: context, 
+          title: "Ocurrió un error", 
+          message: [responseCompany.message]
+        );
+      }
+      await authController.signOut();
+      return;
+    }
+    final dataCompany = responseCompany as CompanyModel;
+    if(!data.enabled || !dataCompany.enabled){
       setState(() {
         loading = false;
       });
@@ -148,7 +167,11 @@ class _SignInPageState extends State<SignInPage> {
         showErrorAlert(
           context: context, 
           title: "Estimado usuario", 
-          message: ["Su cuenta se encuentra deshabilitada. Comuníquese con el administrador para más información"]
+          message: [
+            !data.enabled ? 
+              "Su cuenta se encuentra deshabilitada. Comuníquese con el administrador para más información" :
+              "La empresa asociada se encuentra deshabilitada. Comuníquese con el administrador para información"
+          ]
         );
       }
       await authController.signOut();

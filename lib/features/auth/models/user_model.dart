@@ -7,6 +7,7 @@ class UserModel {
     required this.enabled,
     required this.appsEnabled,
     required this.isAdmin,
+    required this.company
   });
 
   final String id;
@@ -15,6 +16,7 @@ class UserModel {
   final bool enabled;
   final List<String> appsEnabled;
   final bool isAdmin;
+  final String company;
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
     id: json["id"] ?? "",
@@ -22,7 +24,8 @@ class UserModel {
     username: json["username"] ?? "",
     enabled: json["enabled"] ?? false,
     appsEnabled: json["apps_enabled"] != null ? List<String>.from(json["apps_enabled"]) : [],
-    isAdmin: json["is_admin"] ?? false
+    isAdmin: json["is_admin"] ?? false,
+    company: json["company"] ?? ""
   );
 
   Map<String, dynamic> toJson() => {
@@ -31,7 +34,8 @@ class UserModel {
     "username": username,
     "enabled": enabled,
     "apps_enabled": appsEnabled,
-    "is_admin": isAdmin
+    "is_admin": isAdmin,
+    "company": company,
   };
 
 
@@ -41,7 +45,8 @@ class UserModel {
     username: "",
     enabled: false,
     appsEnabled: [],
-    isAdmin: false
+    isAdmin: false,
+    company: ""
   );
   
   UserModel copyWith ({
@@ -50,7 +55,8 @@ class UserModel {
     String? username,
     bool? enabled,
     List<String>? appsEnabled,
-    bool? isAdmin
+    bool? isAdmin,
+    String? company
   }) => UserModel(
     id: id ?? this.id,
     email: email ?? this.email,
@@ -58,5 +64,6 @@ class UserModel {
     enabled: enabled ?? this.enabled,
     appsEnabled: appsEnabled ?? this.appsEnabled,
     isAdmin: isAdmin ?? this.isAdmin,
+    company: company ?? this.company
   );
 }
