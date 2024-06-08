@@ -8,9 +8,12 @@ import 'package:apk_manager/features/auth/models/user_model.dart';
 import 'package:apk_manager/features/auth/pages/sign_in_page.dart';
 import 'package:apk_manager/features/auth/providers/user_provider.dart';
 import 'package:apk_manager/features/common/controllers/notification_controller.dart';
+import 'package:apk_manager/features/common/widgets/alerts.dart';
 import 'package:apk_manager/features/common/widgets/page_loader.dart';
 import 'package:apk_manager/features/common/widgets/scaffold_wrapper.dart';
 import 'package:apk_manager/features/common/widgets/v_spacing.dart';
+import 'package:apk_manager/features/company/providers/company_provider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -25,6 +28,7 @@ class _AppHomePageState extends State<AppHomePage> with WidgetsBindingObserver {
   final notificationController = NotificationController();
   late AppsProvider appsProvider;
   StreamSubscription? userSubs;
+  StreamSubscription? companySubs;
   List<String> appsEnabled = [];
   int keyCounter = 1;
 
@@ -34,16 +38,23 @@ class _AppHomePageState extends State<AppHomePage> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final userProvider = Provider.of<UserProvider>(context, listen: false);
+      final companyProvider = Provider.of<CompanyProvider>(context, listen: false);
       final currentUser = userProvider.currentUser;
+      final currentCompany = userProvider.currentUser;
       appsProvider.getApps(currentUser);
       userProvider.getUserSubscription();
+      companyProvider.getCompanySubscription(currentUser.company);
       userSubs = userProvider.userStream.listen((event) {
-        //TODO: Mejorar comparacion de listas
-        if(appsEnabled.length != event.appsEnabled.length || currentUser.isAdmin != event.isAdmin ){
+        if(!compareStringLists(appsEnabled, event.appsEnabled) || currentUser.isAdmin != event.isAdmin ){
           appsProvider.getApps(event);
         }
         if(currentUser.enabled && !event.enabled){
-          signOut();
+          signOut("Su cuenta ha sido deshabilitada.");
+        }
+      });
+      companySubs = companyProvider.companyStream.listen((event) {
+        if(currentCompany.enabled && !event.enabled){
+          signOut("La cuenta de la empresa asociada ha sido deshabilitada.");
         }
       });
     });
@@ -53,6 +64,7 @@ class _AppHomePageState extends State<AppHomePage> with WidgetsBindingObserver {
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     userSubs?.cancel();
+    companySubs?.cancel();
     super.dispose();
   }
 
@@ -101,7 +113,7 @@ class _AppHomePageState extends State<AppHomePage> with WidgetsBindingObserver {
                             ],
                           ),
                           IconButton(
-                            onPressed: signOut,
+                            onPressed: ()=>signOut("", manually: true),
                             icon: const Icon(Icons.logout)
                           )
                         ],
@@ -131,12 +143,17 @@ class _AppHomePageState extends State<AppHomePage> with WidgetsBindingObserver {
       ),
     );
   }
-  void signOut() async {
+  void signOut(String message, {bool manually = false}) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final currentAppsEnabled = userProvider.currentUser.appsEnabled;
     await userProvider.signOut();
     await notificationController.unsubscribeToTopics(currentAppsEnabled);
     if(!mounted) return;
+    if(!manually){
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        showInfoAlert(context, "Estimado usuario", message);
+      });
+    }
     Navigator.pushAndRemoveUntil(context, materialNavigationRoute(context, const SignInPage()), (route) => false);
   }
 }

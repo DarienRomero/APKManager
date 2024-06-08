@@ -14,6 +14,9 @@ class CompanyController {
   final String companyCollection = "company";
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
+  Stream<DocumentSnapshot<Map<String, dynamic>>> companyStream(String companyId) => 
+    _db.collection(companyCollection).doc(companyId).snapshots();
+
   Future<dynamic> fetchCompanyById(String id) async {
     try {
       DocumentSnapshot docsRef = await _db.collection(companyCollection).doc(id).get();

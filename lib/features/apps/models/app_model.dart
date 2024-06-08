@@ -1,4 +1,6 @@
-class AppModel {
+import 'package:equatable/equatable.dart';
+
+class AppModel extends Equatable{
   final String id;
   final String lastVersionLink;
   final int lastVersionNumber;
@@ -29,4 +31,16 @@ class AppModel {
     packageName: json["package_name"] ?? "",
     updatedAt: json["updated_at"]?.toDate()
   );
+  
+  @override
+  List<Object?> get props => [
+    id,
+    lastVersionLink,
+    lastVersionNumber,
+    lastVersionString,
+    logo,
+    name,
+    packageName,
+    updatedAt,
+  ];
 }

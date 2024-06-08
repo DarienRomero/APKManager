@@ -10,4 +10,19 @@ double mqWidth(BuildContext context, double percentage){
 const String notFoundImage = "assets/images/not_found.jpg";
 const String loadingImage = "assets/images/loading_image.gif";
 
-const int firstVersion = 1;
+bool compareStringLists(List<String> list1, List<String> list2) {
+  // Check if both lists have the same length
+  if (list1.length != list2.length) {
+    return false;
+  }
+
+  // Compare each element in the lists
+  for (int i = 0; i < list1.length; i++) {
+    if (list1[i] != list2[i]) {
+      return false;
+    }
+  }
+
+  // If all elements are the same, return true
+  return true;
+}

@@ -1,5 +1,5 @@
 
-import 'package:apk_manager/core/utils.dart';
+import 'package:apk_manager/core/config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalController {
