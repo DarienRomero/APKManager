@@ -7,6 +7,7 @@ import 'package:apk_manager/features/auth/providers/user_provider.dart';
 import 'package:apk_manager/features/common/controllers/notification_controller.dart';
 import 'package:apk_manager/features/common/models/error_response.dart';
 import 'package:apk_manager/features/common/widgets/alerts.dart';
+import 'package:apk_manager/features/common/widgets/app_version_label.dart';
 import 'package:apk_manager/features/common/widgets/custom_button.dart';
 import 'package:apk_manager/features/common/widgets/custom_text_field.dart';
 import 'package:apk_manager/features/common/widgets/page_loader.dart';
@@ -76,6 +77,8 @@ class _SignInPageState extends State<SignInPage> {
                     errorMessage: passwordError,
                     label: "Contraseña",
                   ),
+                  const VSpacing(2),
+                  const AppVersionLabel(),
                   const VSpacing(10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
