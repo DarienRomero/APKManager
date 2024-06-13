@@ -74,8 +74,12 @@ class UserProvider extends ChangeNotifier {
     });
   }
 
+  bool loadingSignOut = false;
+
   Future<void> signOut() async {
+    loadingSignOut = true;
     await authController.signOut();
+    loadingSignOut = false;
     currentUser = UserModel.empty;
   }
 

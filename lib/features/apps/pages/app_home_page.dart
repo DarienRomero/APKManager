@@ -120,7 +120,6 @@ class _AppHomePageState extends State<AppHomePage> with WidgetsBindingObserver {
                       );
                     }
                   ),
-                  const VSpacing(3),
                   AppListView(
                     key: Key("counter_$keyCounter"),
                     appsProvider: appsProvider,
@@ -135,6 +134,15 @@ class _AppHomePageState extends State<AppHomePage> with WidgetsBindingObserver {
               return PageLoader(
                 loading: downloadFileLoading, 
                 message: "Descargando apk...\nEsto puede tomar unos minutos"
+              );
+            }
+          ),
+          Selector<UserProvider, bool>(
+            selector: (context, appsProvider) => appsProvider.loadingSignOut,
+            builder: (context, loadingSignOut, _) {
+              return PageLoader(
+                loading: loadingSignOut, 
+                message: "Cerrando sesión"
               );
             }
           )
