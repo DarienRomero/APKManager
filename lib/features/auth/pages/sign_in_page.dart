@@ -16,6 +16,7 @@ import 'package:apk_manager/features/company/controllers/company_controller.dart
 import 'package:apk_manager/features/company/models/company_modal.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class SignInPage extends StatefulWidget {
@@ -80,10 +81,28 @@ class _SignInPageState extends State<SignInPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       CustomButton(
-                        onPressed: onSignIn,
+                        onPressed: onSignInEmail,
                         label: "Iniciar sesión", 
                         widthPer: 60,
                         color: Theme.of(context).primaryColor
+                      ),
+                    ],
+                  ),
+                  VSpacing(2),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CustomButton(
+                        onPressed: onSignInGoogle,
+                        label: "Iniciar con Google", 
+                        widthPer: 60,
+                        leading: SvgPicture.asset(
+                          "assets/icons/google_icon.svg",
+                          width: mqWidth(context, 6),
+                          height: mqWidth(context, 6),
+                        ),
+                        labelColor: Colors.black,
+                        color: Colors.white
                       ),
                     ],
                   )
@@ -99,7 +118,7 @@ class _SignInPageState extends State<SignInPage> {
       )
     );
   }
-  Future<void> onSignIn() async {
+  Future<void> onSignInEmail() async {
     emailError = emailValidator(emailController.text);
     passwordError = passwordValidator(passwordController.text);
     if(emailError.isNotEmpty || passwordError.isNotEmpty){
@@ -126,7 +145,32 @@ class _SignInPageState extends State<SignInPage> {
       }
       return;
     }
-    final respTemp = response as User;
+    processUserData(response);  
+  }
+  Future<void> onSignInGoogle() async {
+
+    if(loading == true) return;
+    setState(() {
+      loading = true;
+    });
+    final response = await authController.signInGoogle();
+    if(response is ErrorResponse){
+      setState(() {
+        loading = false;
+      });
+      if(mounted){
+        showErrorAlert(
+          context: context, 
+          title: "Ocurrió un error", 
+          message: [response.message]
+        );
+      }
+      return;
+    }
+    processUserData(response);    
+  }
+  void processUserData(User response) async {
+    final respTemp = response;
     final responseUser = await authController.fetchUserById(respTemp.uid);
     if(responseUser is ErrorResponse){
       setState(() {

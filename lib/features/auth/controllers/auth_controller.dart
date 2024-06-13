@@ -4,6 +4,7 @@ import 'package:apk_manager/features/auth/models/user_model.dart';
 import 'package:apk_manager/features/common/models/error_response.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthController {
 
@@ -15,10 +16,12 @@ class AuthController {
   final _auth = FirebaseAuth.instance;
 
   final String usersCollection = "user";
+  final GoogleSignIn googleSignIn = GoogleSignIn();
 
   Future<dynamic> signOut() async {
     try {
       await _auth.signOut();
+      await googleSignIn.signOut();
     } on FirebaseAuthException catch (e) {
       return ErrorResponse(
         statusCode: 400, 
@@ -75,6 +78,33 @@ class AuthController {
     } on SocketException{
       return ErrorResponse.network;
     } catch(_){
+      return ErrorResponse.unknown;
+    }
+  }
+  Future<dynamic> signInGoogle() async {
+    try{
+      await googleSignIn.signOut();
+      GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+      if(googleSignInAccount == null){
+        return ErrorResponse(
+          message: "cancelled", 
+          statusCode: 400
+        );
+      }
+      GoogleSignInAuthentication gSA = await googleSignInAccount.authentication;
+      UserCredential result = await _auth.signInWithCredential(
+        GoogleAuthProvider.credential(
+          idToken: gSA.idToken,
+          accessToken: gSA.accessToken
+        )
+      );
+      User? user = result.user;
+      if(user != null){
+        return user;
+      }else{
+        return ErrorResponse.unknown;
+      }
+    }catch(error){
       return ErrorResponse.unknown;
     }
   }

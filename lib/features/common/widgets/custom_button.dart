@@ -1,3 +1,4 @@
+import 'package:apk_manager/features/common/widgets/h_spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:apk_manager/core/utils.dart';
 
@@ -54,7 +55,18 @@ class CustomButton extends StatelessWidget {
           }
         },
         child:  Center(
-          child: loading ? CircularProgressIndicator(color: Colors.white) : Text(label, style: TextStyle(color: labelColor, fontSize: 16)),
+          child: loading ? CircularProgressIndicator(color: Colors.white) : Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if(leading != null) Row(
+                children: [
+                  leading!,
+                  HSpacing(2)
+                ],
+              ),
+              Text(label, style: TextStyle(color: labelColor, fontSize: 16)),
+            ],
+          ),
         )
       ),
     );
