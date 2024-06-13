@@ -1,4 +1,4 @@
-package com.app.apk_manager_internal
+package dev.solucionesdigitalesapps.apkmanager
 
 import io.flutter.embedding.android.FlutterActivity
 
