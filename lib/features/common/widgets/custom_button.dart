@@ -48,23 +48,31 @@ class CustomButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(borderRadius)
         ),
+        padding: EdgeInsets.zero,
         onPressed: () {
           if (disabled) return;
           if (onPressed != null) {
             onPressed!();
           }
         },
-        child:  Center(
+        child: Center(
           child: loading ? CircularProgressIndicator(color: Colors.white) : Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               if(leading != null) Row(
                 children: [
                   leading!,
-                  HSpacing(2)
+                  HSpacing(2),
+                  Text(label, style: TextStyle(color: labelColor, fontSize: 16))
                 ],
+              ) else
+              Container(
+                width: mqWidth(context, widthPer),
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(label, style: TextStyle(color: labelColor, fontSize: 16))
+                ),
               ),
-              Text(label, style: TextStyle(color: labelColor, fontSize: 16)),
             ],
           ),
         )
