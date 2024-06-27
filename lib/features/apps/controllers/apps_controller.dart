@@ -15,7 +15,6 @@ class AppsController {
     ? _db.collection(appsCollection).snapshots() :
   _db.collection(appsCollection)
     .where("id", whereIn: appsEnabled)
-    .where("company", isEqualTo: companyId)
     .snapshots();
 
   //PARSE
