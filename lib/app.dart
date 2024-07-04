@@ -4,7 +4,6 @@ import 'package:apk_manager/features/apps/providers/apps_provider.dart';
 import 'package:apk_manager/features/auth/providers/user_provider.dart';
 import 'package:apk_manager/features/common/controllers/notification_controller.dart';
 import 'package:apk_manager/features/common/router_page.dart';
-import 'package:apk_manager/features/common/widgets/scaffold_wrapper.dart';
 import 'package:apk_manager/features/company/providers/company_provider.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
