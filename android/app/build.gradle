@@ -75,6 +75,19 @@ android {
             signingConfig signingConfigs.release
         }
     }
+    flavorDimensions "default"
+    productFlavors {
+        production {
+            dimension "default"
+            resValue "string", "app_name", "APKManager"
+            applicationIdSuffix ""
+        }
+        development {
+            dimension "default"
+            resValue "string", "app_name", "APKManagerDEV"
+            applicationIdSuffix ".dev"
+        }
+    }
 }
 
 flutter {
