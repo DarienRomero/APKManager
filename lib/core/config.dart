@@ -1,3 +1,3 @@
 const int firstVersion = 1;
 
-int patchVersion = 0;
+const String appName = "APKManager";

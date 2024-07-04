@@ -15,7 +15,7 @@ class NotificationController {
 
   Stream<RemoteMessage> get mensajes => _messageStreamController.stream;
 
-  Future<void> initNotifications() async {
+  Future<void> initNotifications(BackgroundMessageHandler backgroundMessageHandler) async {
     await messaging.requestPermission(
       alert: true,
       announcement: false,
@@ -28,10 +28,10 @@ class NotificationController {
     messaging.subscribeToTopic('general');
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      // backgroundMessageHandler(message);
+      _messageStreamController.sink.add(message);
     });
 
-    // FirebaseMessaging.onBackgroundMessage(backgroundMessageHandler);
+    FirebaseMessaging.onBackgroundMessage(backgroundMessageHandler);
   }
 
   Future<String?> getToken() async {
