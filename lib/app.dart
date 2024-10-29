@@ -1,3 +1,4 @@
+import 'package:apk_manager/core/config_reader.dart';
 import 'package:apk_manager/core/themes.dart';
 import 'package:apk_manager/core/updates.dart';
 import 'package:apk_manager/features/apps/providers/apps_provider.dart';
@@ -100,7 +101,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,
-        title: 'APKManager',
+        title: ConfigReader.getAppName(),
         theme: Themes.lightMode,
         debugShowCheckedModeBanner: false,
         localizationsDelegates: [

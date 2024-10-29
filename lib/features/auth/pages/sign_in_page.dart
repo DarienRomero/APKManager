@@ -1,3 +1,4 @@
+import 'package:apk_manager/core/config_reader.dart';
 import 'package:apk_manager/core/utils.dart';
 import 'package:apk_manager/core/validators.dart';
 import 'package:apk_manager/features/apps/pages/app_home_page.dart';
@@ -59,7 +60,7 @@ class _SignInPageState extends State<SignInPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const VSpacing(15),
-                  Text("APK Manager", style: TextStyle(
+                  Text(ConfigReader.getAppName(), style: TextStyle(
                     color: Theme.of(context).primaryColor,
                     fontSize: 36,
                     fontWeight: FontWeight.bold

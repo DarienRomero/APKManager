@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:isolate';
 
-import 'package:apk_manager/core/config.dart';
+import 'package:apk_manager/core/config_reader.dart';
 import 'package:apk_manager/core/launcher_utils.dart';
 import 'package:apk_manager/features/common/controllers/common_controller.dart';
 import 'package:apk_manager/features/common/widgets/alerts.dart';
@@ -28,7 +28,7 @@ Future<void> showOtaUpdateAlert(context) async {
     context: context,
     builder: (context) => AlertDialog(
       title: const Text("Información"),
-      content: const Text("Hay una nueva versión de $appName."),
+      content: Text("Hay una nueva versión de ${ConfigReader.getAppName()}."),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),

@@ -1,3 +1,4 @@
+import 'package:apk_manager/core/config_reader.dart';
 import 'package:apk_manager/features/common/controllers/local_controller.dart';
 import 'package:apk_manager/app.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -14,6 +15,7 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown
   ]);
+  await ConfigReader.initialize();
   await SentryFlutter.init(
     (options) {
       options.dsn = 'https://2ecb5ea822029678fae6f9aa87120cb8@o1110619.ingest.us.sentry.io/4507425646313472';
