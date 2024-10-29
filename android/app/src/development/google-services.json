@@ -1,105 +1,26 @@
 {
   "project_info": {
-    "project_number": "356214299229",
-    "project_id": "apkmanager-12227",
-    "storage_bucket": "apkmanager-12227.appspot.com"
+    "project_number": "472952145512",
+    "project_id": "apkmanagerdev",
+    "storage_bucket": "apkmanagerdev.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:356214299229:android:f474f67b06d1b2bb3b0bb4",
+        "mobilesdk_app_id": "1:472952145512:android:cc2879573851755118dddd",
         "android_client_info": {
-          "package_name": "com.app.apk_manager_internal"
+          "package_name": "dev.solucionesdigitalesapps.apkmanager.dev"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "356214299229-hnd2nqnmnf0efuck91q6nsl947ni4lg4.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.app.apk_manager_internal",
-            "certificate_hash": "d4b210ada0dd1ae7cfabb938724b02faac859e08"
-          }
-        },
-        {
-          "client_id": "356214299229-qcu5dk45b2ss5vnr99b0jn8tc5dtuc0u.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.app.apk_manager_internal",
-            "certificate_hash": "3ef416ce10cbcbe3348a3191a4e943632a153706"
-          }
-        },
-        {
-          "client_id": "356214299229-1i3ccs7cjkd7ibm1385ejbie4959860l.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBQjeRYfgIbcXg-4E0eQex0OU5jjYK5KKg"
+          "current_key": "AIzaSyBOUNGfbfylSeqWC-w2Ffa7tb-jbcfsVuI"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "356214299229-1i3ccs7cjkd7ibm1385ejbie4959860l.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:356214299229:android:c9264705d1c9d5043b0bb4",
-        "android_client_info": {
-          "package_name": "dev.solucionesdigitalesapps.apkmanager"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "356214299229-0tagj7lk6njhqa9mcsb575a19ipeilhu.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "dev.solucionesdigitalesapps.apkmanager",
-            "certificate_hash": "e3c437136c1bb9f969c95da762e135deac2c1c7f"
-          }
-        },
-        {
-          "client_id": "356214299229-3qvd4muf2qqkufsvreduro9jpmeuant4.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "dev.solucionesdigitalesapps.apkmanager",
-            "certificate_hash": "3ef416ce10cbcbe3348a3191a4e943632a153706"
-          }
-        },
-        {
-          "client_id": "356214299229-c58oj1je687ua102a60qbsb4v5ct8eb5.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "dev.solucionesdigitalesapps.apkmanager",
-            "certificate_hash": "dfd6ad9dcc67605a93ebb2e048afeb1fe28d79ed"
-          }
-        },
-        {
-          "client_id": "356214299229-1i3ccs7cjkd7ibm1385ejbie4959860l.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBQjeRYfgIbcXg-4E0eQex0OU5jjYK5KKg"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "356214299229-1i3ccs7cjkd7ibm1385ejbie4959860l.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }
