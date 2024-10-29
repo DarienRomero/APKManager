@@ -36,7 +36,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
     notificationController.initNotifications(myBackgroundMessageHandler).then((value) {
       notificationController.getToken().then((value) {
         requestingToken = false;
-        debugPrint("FCM TOKEN");
+        debugPrint("FCM TOKENN");
         debugPrint(value);
         //En el inicio de la aplicación solo se checkea actualizaciones de tienda
         //El OTA se actualiza cuando se carga la aplicación
